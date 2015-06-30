@@ -2,58 +2,11 @@
 # -*- coding: utf-8 -*-
 
 # - por:
-#
-#	Neviim Jads		(neviimdev@gmail.com) 
+#	Neviim Jads - (neviimdev@gmail.com) 
 
-# - Pacotes:
-#
-#	$ cd vmlerta
-#
-#	$ virtualenv venv
-# 	$ source venv/bin/activate 
-# 	
-#	$ venv/bin/pip install --upgrade pip
-#
-# 	$ venv/bin/pip install pygal
-#   $ venv/bin/pip install flask
-#	$ venv/bin/pip install flask-httpauth
-#
-#
-#	(venv)$ deactivate  
+# - Demostratico de como criar uma API com flask, codigo criado com base educacional.
 
 
-# - Forma de uso:
-#
-#		- lista todos os registros, (@auth.login_required)
-# 			$ curl -u neviim:password -i http://localhost:5000/monitor/api/v1.0/dados
-#
-#		- Lista registro id=2, (@auth.login_required)
-#			$ curl -u neviim:password -i http://localhost:5000/monitor/api/v1.0/dados/2
-#
-#		- Insere um registro, (@auth.login_required)
-#           $ curl -u neviim:password -i -H "Content-Type: application/json" -X POST -d '{ "maquina":"vmremoto", "memoria":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "processo":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "ping":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }' http://localhost:5000/monitor/api/v1.0/dados
-#			$ curl -u neviim:password -i -H "Content-Type: application/json" -X POST -d '
-#											{ "maquina" :"vmremoto", 
-#											  "memoria" :[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
-#											  "processo":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-#											  "ping"    :[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
-#											}' 
-#											http://localhost:5000/monitor/api/v1.0/dados
-#
-#
-#		- Atualiza um registro especifico (id=3), (@auth.login_required)
-#			$ curl -u neviim:password -i -H "Content-Type: application/json" -X PUT -d '{"done":true, "processo":255}' http://localhost:5000/monitor/api/v1.0/dados/3
-#			$ curl -u neviim:password -i -H "Content-Type: application/json" -X PUT -d '{"done":true, "memoria":3500}' http://localhost:5000/monitor/api/v1.0/dados/3
-#
-#		- Deleta o registro id=3, (@auth.login_required)
-#			$ curl -u neviim:password -i -X DELETE http://localhost:5000/monitor/api/v1.0/dados/3
-#
-#		- Acesso com LOGIN, (@auth.login_required)
-#			$ curl -u neviim:password -i http://localhost:5000/monitor/api/v1.0/dados
-#
-
-''' Exemplo
-'''
 import pygal
 
 from flask import Flask, jsonify
@@ -225,25 +178,6 @@ def index_teste():
 	chart = radar_chart.render(is_unicode=True)
 	return render_template('teste.html', chart=chart )
 
-
-''' Referencia monta grafico por ID
-
-	- Lista registro id=2, (@auth.login_required)
-		$ curl -u neviim:password -i http://localhost:5000/monitor/api/v1.0/graph/1
-
-		- Retorna:
-			{
-			  "dado": {
-			    "done": False, 
-			    "id": 1, 
-			    "maquina"  :"nvmdev", 
-			    "memoria"  :[1395, 8212, 5720, 7218, 2464, 1660, 2123, 6607, 2651, 6361, 1044, 3797], 
-			    "ping"     :[403, 701, 859, 1079, 544, 736, 34, 102, 2933, 4203, 5229, 5910], 
-			    "processo" :[7473, 5099, 1700, 2651, 6361, 6044, 3797, 9450, 5933, 4203, 3229, 7810]
-			  }
-			} 
-
-'''
 # GET por id, monta grafico (abort)
 @app.route('/monitor/api/v1.0/graph/<int:dado_id>', methods=['GET'])
 def get_mostra_graph(dado_id):
